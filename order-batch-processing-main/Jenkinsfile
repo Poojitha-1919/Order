@@ -6,10 +6,6 @@ pipeline {
         jdk 'JDK17'
     }
 
-    environment {
-        MAVEN_OPTS = '-Dmaven.test.failure.ignore=true'
-    }
-
     stages {
 
         stage('Checkout Code') {
@@ -20,19 +16,25 @@ pipeline {
 
         stage('Clean & Build') {
             steps {
-                bat 'mvn clean install'
+                dir('order-batch-processing-main') {
+                    bat 'mvn clean install'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'mvn test'
+                dir('order-batch-processing-main') {
+                    bat 'mvn test'
+                }
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                dir('order-batch-processing-main') {
+                    bat 'mvn package'
+                }
             }
         }
     }
